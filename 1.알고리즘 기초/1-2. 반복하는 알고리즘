@@ -1,16 +1,108 @@
 #1-7
-# 1부터 n까지 정수의 합 구하기 1(while)
+    # 1부터 n까지 정수의 합 구하기 1(while)
 
-print('1부터 n까지 정수의 합을 구합니다.')
-n = int(input('n값을 입력하세요.: '))
+        print('1부터 n까지 정수의 합을 구합니다.')
+        n = int(input('n값을 입력하세요.: '))
 
-sum = 0
-i = 1
+        sum = 0
+        i = 1
 
-while i <= n:
-    sum += i
-    i += 1
-    
-print(f'1부터 {n}까지 정수의 합은 {sum}입니다.')
+        while i <= n:
+            sum += i
+            i += 1
+
+        print(f'1부터 {n}까지 정수의 합은 {sum}입니다.')
+        print(f'i값은 {i}입니다.') #i가 n을 초과해야 루프 중지
 
 >반복 구조 repetition structure (loop)
+>사전 판단 반복 구조
+>while 조건식(참일 때): 명령문 (=루프 본문)
+>카운터용 변수 (i)
+
+#1-8
+    # 1부터 n 까지 정수의 합 구하기 2(for문)
+
+        print('1부터 n까지 정수의 합을 구합니다.')
+        n = int(input('n값을 입력하세요: '))
+
+        sum = 0
+        for i in range(1,n+1):
+            sum += i
+
+
+        print(f'1부터 {n}까지의 정수의 합은 {sum}입니다.')
+        
+>range(n) : 0이상 n미만 수
+>range(a,b) : a이상 b 미만
+>range(a,b,step) : a이상 b 미만인 수를 step 간격으로 나열
+>이터러블 객체 : 반복 할 수 있는 객체. ex) list , str, tuple
+
+#1-9
+    # a부터 b 까지 정수의 합 구하기 (for문)
+
+        print('a부터 b까지 정수의 합을 구합니다.')
+        a = int(input('정수 a를 입력하세요: '))
+        b = int(input('정수 b를 입력하세요: '))
+
+        if a > b:
+            a,b = b,a #a와 b를 오름차순으로 정렬
+
+        sum = 0
+        for i in range(a , b+1):
+            sum += i 
+
+        print(f'{a}부터 {b}까지의 정수의 합은 {sum}입니다.')
+
+
+a,b = b,a 에 대하여
+1)우변의 b,a에 의해 두 값을 압축한 튜플 b,a가 생성됩니다.
+2)대입할 때 튜플 (b,a)f를 다시 풀어 b,a로 만든 다음 각각 a와 b에 대입합니다.
+
+ #반복 과정에서 조건 판단하기1
+ #1-10
+    #a부터 b까지 정수의 합 구하기 1
+
+        print('a부터 b까지 정수의 합을 구합니다.')
+        a = int(input('정수 a를 입력하세요: '))
+        b = int(input('정수 b를 입력하세요: '))
+
+        if a > b:
+            a,b = b,a #a와 b를 오름차순으로 정렬
+
+        sum = 0
+        for i in range(a , b+1):
+            if i < b:
+                print(f'{i}+' , end='')
+            else:
+                print(f'{i}=', end ='')
+
+            sum += i
+
+        print(sum)
+
+>end='' 이걸로 print 반복해도 줄바꿈 없이 할 수 있구나
+
+#1-11
+#a부터 b까지 정수의 합 구하기 2
+
+        print('a부터 b까지 정수의 합을 구합니다.')
+        a = int(input('정수 a를 입력하세요: '))
+        b = int(input('정수 b를 입력하세요: '))
+
+        if a > b:
+            a,b = b,a #a와 b를 오름차순으로 정렬
+
+        sum = 0
+        for i in range(a , b):
+            print(f'{i}+' , end='')
+            sum += i
+
+        print(f'{b}=',end='')
+        sum += b
+
+
+        print(sum)
+        
+본 코드는 if문의 비효율을 고려하여 마지막 연산을 따로 빼 둔 것이다.
+>스위칭, 스와핑
+:t=a / a=b / b=t
