@@ -217,3 +217,96 @@ range를 쓸 때는 이터러블 객체를 생성하여 루프를 하기 때문�
             if i*i > area: break
             if area % i: continue     # %연산자를 쓸 때 0이면 False를 반환하니까 약수가 아니다.
             print(f'{i}x{area//i}')
+            
+# 1-18
+    # 10~99 사이의 난수 n개 생성하기 (13이 나오면 중단)
+
+        import random
+
+        n = int(input('난수의 개수를 입력하세요.: '))
+
+        for _ in range(n):
+            r = random.randint(10, 99)
+            print(r, end=' ')
+            if r == 13:
+                print('\n프로그램을 중단합니다.')
+                break
+
+        else:
+            print('\n난수 생성을 종료합니다.')
+            
+else문이 뒤따르는 for문인데,
+처음 보는 구조이다. 신기하다.
+
+# 1-19
+    # 1~12까지 8을 건너뛰고 출력하기 1
+
+        for i in range(1, 13):
+            if i == 8:
+                continue
+            print(i, end=' ')
+
+        print()
+        
+continue 문을 쓰는 걸 잘 봐두자.
+continue를 만나면 바로 다음 loop로 인정사정없이 넘어간다.
+
+# 1-20
+    # 1~12까지 8을 건너뛰고 출력하기 2
+
+        for i in list(range(1, 8)) + list(range(9, 13)):
+            print(i, end=' ')
+
+건너뛰어야 할 수를 안다면 이런식으로 if 문을 매번 쓰는 경우를 피할 수 있다.
+
+# 1C-3
+    # 2자리 양수 (10~99) 입력받기
+
+        print('2자리 양수를 입력하세요.')
+
+        while True:
+            n = int(input('값을 입력하세요: '))
+            if n >= 10 and n <= 99:
+            # if n <= 10 <= 99 와 같고
+            # if not(n < 10 or n > 99) 와 같다. (드모르간의 법칙)
+                break
+
+        print(f'입력받은 양수는 {n}입니다.')
+
+1-16처럼 입력받은 값이 조건에 안맞으면 무한 루프에 빠뜨려 버리는 코드이다.
+>드모르간의 법칙
+    1)x and y 와 not(not x or not y)의 논릿값은 같다.
+    2)x or y 와 not(not x and not y)의 논릿값은 같다.
+이건 밴 다이어그램을 생각하면 조금 쉬울 듯.
+종료조건이거나, 계속조건의 부정이거나.
+
+>구조적 프로그래밍 structured programming
+입력과 출력으로 이루어진 구성 요소를 계층으로 배치하여 프로그램을 구성하는 방법.
+순차, 선택, 반복 세 종류의 제어 흐름을 사용한다.
+
+>다중 루프 : 반복문이 중첩된 루프
+
+
+# 1-21
+    # 구구단 곱셈표 출력하기
+
+        print('-' * 27)
+        for i in range(1, 10):   
+            for j in range(1, 10):
+                print(f'{i * j:3}', end='')
+            print()
+
+
+        print('-' * 27)
+
+루프 속에 루프가 있는 이중 루프의 구조이고,
+칸 수에 맞춰 출력하기 위해 f'{i * j:3}'
+이라는 것이 쓰였다. :3 :3 :3 :3
+그리고 행 변경을 어디서 할 지도 잘 생각해야 한다.
+
+#난수를 생성하는 random.randint() 함수
+random.randint(a,b)는 a이상 b !이하!인 정수 중 하나를 뽑아서 반환한다.
+---->여기서 생각난 재밌는 놀이: 랜덤 주식 시뮬레이터!
+
+
+
