@@ -5,12 +5,13 @@ import random
 initinp = int(input('매수 가격은 얼마인가요?: '))
 daysinp = int(input('몇 일 동안 가지고 계실건가요?: '))
 timesinp = int(input('몇 번 시뮬레이트 할까요?: '))
-
+dailyMax = 10
+dailyMin = -10
 
 # result = init
 
 # for d in range(days-1):
-#     ratio = (100+random.randint(-10, 10))/100
+#     ratio = (100+random.randint(dailyMin, dailyMax))/100
 #     result *= ratio
 #     if d == 0:
 #         min = max = result
@@ -94,6 +95,7 @@ def simStockTimes(init,days,times):
 
 aveRes,avePro,delCount,earnRate = simStockTimes(initinp,daysinp,timesinp)
 
-print(f"""상장 폐지 됐을 경우를 제외했을 때, 입력하신 날짜가 지난 후에 평균 가격은 {aveRes}였습니다.
-평균 수익률은 {avePro}% 였으며, 상장폐지 된 횟수는 {delCount}회 입니다. 또한 수익이 났을 확률은 {earnRate}% 입니다.
+print(f"""일별 등락률:{dailyMin}% ~ {dailyMax}% 
+상장 폐지 됐을 경우를 제외했을 때, 입력하신 날짜가 지난 후에 평균 가격은 {aveRes}였습니다.
+평균 수익률은 {avePro}% 였으며, 상장폐지 된 횟수는 {delCount}회 입니다. 수익이 났을 확률은 {earnRate}% 입니다.
 """)
