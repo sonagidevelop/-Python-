@@ -1,0 +1,108 @@
+>배열 array
+>원소 element
+>인덱스 index
+
+파이썬에서 배열을 list와 tuple로 구현 할 수 있다. 리스트와 튜플은 data container라고 한다.
+차이점은 원소를 변경할 수 있는지 여부이다.
+
+>mutable list형 객체 : 원소를 변경할 수 있음.
+
+# 리스트 선언 방식
+    list01 = []
+    list02 = [1, 2, 3, ]
+    list03 = ["A", "B", "C"]
+    list04 = list()
+    list05 = list('ABC')
+    list06 = list([1, 2, 3])
+    list07 = list((1, 2, 3))
+    list08 = list({1, 2, 3})
+    list09 = list(range(7))
+    list10 = list(range(3, 8))
+    list11 = list(3, 13, 2)
+    list12 = [None] * 5
+
+>튜플 : immutable 자료형이다
+간단하게 선언 할 수 있고 내가 아직 익숙치 않은 부분이므로 syntax가 어떤지 주의 깊게 봐야겠다.
+원소가 한 개인 경우에 꼭 원소 뒤에 쉼표를 입력해야 한다. 안 그러면 단일 값의 변수 선언으로 인식하기 때문이다.
+
+# 튜플 선언 방식
+    tuple01 = ()
+    tuple02 = 1,
+    tuple03 = (1,)
+    tuple04 = 1, 2, 3
+    tuple05 = 1, 2, 3,
+    tuple06 = (1, 2, 3)
+    tuple07 = (1, 2, 3,)
+    tuple08 = "A", "B", "C"
+    tuple09 = tuple()
+    tuple10 = tuple('abc')
+    tuple11 = tuple([1, 2, 3])
+    tuple12 = tuple({1, 2, 3})
+    tuple13 = tuple(range(7))
+    tuple14 = tuple(range(3, 8))
+    tuple15 = tuple(range(3, 13, 2))
+
+
+>언팩 unpack 리스트나 튜플의 원솟값들을 풀어 여러 변수에 대입하는 것
+
+# 리스트에서 슬라이스식 사용
+    s = [11, 22, 33, 44, 55, 66, 77]
+    print(s[0:6],
+          s[0:7:2],
+          s[-4:-2],
+          s[3:1],
+          s[:],  # 모두 출력
+          s[:3],  # 맨 앞에서부터 n 개 출력
+          s[3:],  # n번째 인덱스부터 맨 끝까지 출력
+          s[-3:],  # 맨 끝에서부터 n개까지 출력
+          s[::2],  # 맨 앞에서부터 n개씩 건너뛰며 출력
+          s[::-1])  # 맨 끝에서부터 전부 출력. 이 때 -1은 상수 
+
+다 외울 필요는 없지만 이런 슬라이싱이 가능하다 정도는 알아 두는 것이 좋겠다.
+
+
+# 여러 변수에 값을 한 번에 대입
+    x = 6
+    y = 2
+    x, y = y + 2, x + 3
+    print(x)
+    print(y)
+
+이때 주의 할 것이 3번째 줄에서 y 값을 대입할 때 불러오는 x는 첫 번째 줄의 x라는 것이다.
+
+
+>뮤터블 자료형 mutable data type : list, dictionary, set 등이 있으며 값을 변경할 수 있다.
+>이뮤터블 자료형 immutable data type : 수 , 문자열 , 튜플 등이 있으며 값을 변경할 수 없다.
+
+>식 statement : 쉽게 생각해서 return하는 value가 있다고 하면 될듯
+>문 expression : 얘는 return하지 않고 그냥 그렇다! 라고 하는거.
+
+>자료구조 data structure : 데이터 단위와 데이터 자체 사이의 물리적 또는 논리적인 관계
+
+
+#리스트와 튜플 (보충)
+- len() 함수로 배열의 원소 수 구하기
+
+- min(), max()로 배열의 최솟값과 최댓값 구하기
+
+- 빈 배열 판단하기
+    if x:
+      # x가 비어 있지 않으면 실행 (True)
+    else:
+      # x가 비어 있으면 실행 (False)
+      
+- 비교 연산자로 배열의 대소 또는 등가 관계 판단하기
+  [1,2,3] < [1,2,4]
+  이런 식으로 원소끼리 크기 비교해서 true나 false 반환한다.
+  원소의 길이가 다르면 길이가 큰게 크다고 판단한다.
+  
+- 등가성(equality) 과 동일성(identity) 의 차이
+  등가성 비교는 좌변과 우변의 값이 같은지 비교, == 사용
+  동일성 비교는 값 뿐만 아니라 객체의 식별 번호까지 비교, is 사용
+
+- 내포 표기 생성
+  리스트 안에서 for, if 문을 사용하여 새로운 리스트를 생성하는 기법.
+      numbers = [1, 2, 3, 4, 5]
+      twise = [num * 2 for num in numbers if num % 2 == 1]
+      print(twise)
+  이건 syntax가 쉽지 않다. 나중에 또 볼 일이 있겠지?
