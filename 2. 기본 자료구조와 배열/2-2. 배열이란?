@@ -1,1 +1,122 @@
+>스캔 : 배열 원소를 하나씩 차례로 주목하여 살펴보는 방식
+
+  # 배열 원소의 최댓값 구하기
+
+        a = [22, 57, 11, 91, 32]
+
+
+        def max_of(a):
+            maximum = a[0]
+            for i in range(1, len(a)):
+                if a[i] > maximum:
+                    maximum = a[i]
+            return maximum
+
+
+        b = max_of(a)
+        print(b)
+        
+여기서 주의해야 할 것이 maximum을 0번째 인덱스로 지정을 해 놨기 때문에
+1번째부터 스캔한다는 점이다.
+근데 생각해보니까 0부터해도 큰 문제는 없겠다.
+
+# 2-2
+  # 시퀀스 원소의 최댓값 출력하기
+
+    from typing import Any, Sequence
+
+
+    def max_of(a: Sequence) -> Any:
+        """시퀀스형 a 원소의 최댓값을 반환"""
+        maximum = a[0]
+        for i in range(1, len(a)):
+            if a[i] > maximum:
+                maximum = a[i]
+        return maximum
+
+
+    if __name__ == '__main__':
+        print('배열의 최댓값을 구합니다.')
+        num = int(input('원소 수를 입력하세요.: '))
+        x = [None] * num  # 원소 수가 num인 리스트를 생성
+
+        for i in range(num):
+            x[i] = int(input(f'x[{i}]값을 입력하세요.: '))
+
+        print(f'최댓값은 {max_of(x)}입니다.')
+
+>시퀀스 자료형 : 자료형의 하나이며, 문자열, 리스트, 튜플을 포함하고 있는 자료형이다.
+>(a: Sequence) -> Any : a로 시퀀스 자료형을 인수로 넣으며, 반환하는 것은 어떤 자료형이던 될 수 있다.
+>함수 어노테이션 : 자료형 선언 없이 변수나 함수를 자유롭게 사용하는 파이썬의 특성 때문에 등장한 기능,
+  주석달기라고 생각하면 된다. 가장 큰 특징은 강제성이 없다는 것이다.
+>모듈 : 하나의 스크립트 프로그램
+>__name__ : 모듈 이름을 나타내는 변수이고, 직접 실행 될 때는 '__main__',
+  임포트 될 때는 원래의 이름 ('__max__')
+
+
+# 2-3
+  # 배열 원소의 최댓값을 구해서 출력하기 (원솟값을 입력받음)
+
+    from max import max_of
+
+    print('배열의 최댓값을 구합니다.')
+    print('주의: "End"를 입력하면 종료합니다.')
+
+    number = 0
+    x = []
+
+    while True:
+        s = input(f'x[{number}]값을 입력하세요.: ')
+        if s == 'End':
+            break
+        x.append(int(s))
+        number += 1
+
+    print(f'{number}개를 입력했습니다.')
+    print(f'최댓값은 {max_of(x)}입니다.')
+
+2-2에서 작성한 코드를 max라는 모듈로 이용한다.
+여기서 주의할 점은 max에서 if __name__ = "__main__" 이후로 부터는 max가 임포트 되었기 때문에
+실행되지 않았다는 점이다.
+
+
+# 2-4
+  # 배열 원소의 최댓값을 구해서 출력하기 (원솟값을 난수로 생성)
+
+    import random
+    from max import max_of
+
+    print('난수의 최댓값을 구합니다.')
+    num = int(input('난수의 개수를 입력하세요.: '))
+    lo = int(input('난수의 최솟값을 입력하세요.: '))
+    hi = int(input('난수의 최댓값을 입력하세요.: '))
+    x = [None] * num
+
+    for i in range(num):
+        x[i] = random.randint(lo, hi)
+
+    print(f'{x}')
+    print(f'이 가운데 최댓값은 {max_of(x)}입니다.')
+
+주의 할 점 눈에 띄는 건 x =[None] * num
+에서 [None]이 syntax가 눈에 띈다.
+
+# 2-5
+  # 각 배열 원소의 최댓값을 구해서 출력하기(튜플,문자열,문자열 리스트)
+
+    from max import max_of
+
+    t = (4, 7, 5.6, 2, 3.14, 1)
+    s = 'string'
+    a = ["DTS", "AAC", "FLAC"]
+
+    print(max_of(t))
+    print(max_of(s))
+    print(max_of(a))
+
+정수와 실수 원소가 섞여 있지만 숫자의 크기를 잘 비교해서 출력한다.
+스트링에서는 코드값이 가장 큰 글자를 출력한다.
+스트링 리스트에서는 사전 순으로 가장 큰 문자열을 출력한다.
+
+
 
