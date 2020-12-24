@@ -118,5 +118,151 @@
 스트링에서는 코드값이 가장 큰 글자를 출력한다.
 스트링 리스트에서는 사전 순으로 가장 큰 문자열을 출력한다.
 
+# 보충 수업 2-3
+  # 따로 생성된 리스트, 튜플의 동일성 판단
+    lst1 = [1, 2, 3]
+    lst2 = [1, 2, 3]
+    print(lst1 is lst2)  #False 동일성 identity 
+    print(lst1 == lst2)  #True
+
+  # 리스트, 튜플의 대입
+    lst3 = [1, 2, 3, 4, 5]
+    lst4 = lst3
+    print(lst3 is lst4)
+    print()
+
+    lst3[2] = 9
+    print(lst3)
+    print(lst4)
+    
+
+대입은 참조하는 곳을 넣는 것이다.
+따라서 대입받은 값이 바뀌면 결과도 바뀐다!
+
+  # 리스트 스캔하기
+
+  # 2C-1
+  # 원소 수를 미리 파악
+
+    x = ["John", "George", "Paul", "Ringo"]
+
+    for i in range(len(x)):
+        print(f'x[{i}] = {x[i]}')
+
+  # 2C-2
+  # 리스트의 모든 원소를 enumerate()함수로 스캔하기
+
+    x = ["John", "George", "Paul", "Ringo"]
+
+    for i, name in enumerate(x) :      #enumerate함수를 쓸 때의 syntax를 주의하자.
+        print(f'x[{i}] = {name}')
+        
+  # 2C-3
+  # 리스트의 모든 원소를 enumerate()함수로 스캔하기 (1부터 카운트)
+
+    x = ["John", "George", "Paul", "Ringo"]
+
+    for i, name in enumerate(x,1) :     #enumerate 함수의 두 번째 parameter는 카운터의 시작 수를 정한다.
+        print(f'{i}번째 = {name}')
+
+
+  # 2C-4
+  # 리스트의 모든 원소를 enumerate()함수로 스캔하기 (인덱스값을 사용하지 않음)
+
+    x = ["John", "George", "Paul", "Ringo"]
+
+    for i in x :
+        print(i)
+이게 제일 간편한 것 같다.        
+튜플은 리스트를 ()로 감싸고 있다는 점 빼고 모두 같다.
+
+>이터러블 iterable
+  :문자열,리스트,튜플,집합,딕셔너리 등의 자료형 객체는 모두 이터러블이다.
+  이터러블 객체를 int()의 인수로 전달하면 객체에 대한 반복자 iterator를 반환한다.
+  
+  # 2-6
+  # 뮤터블 시퀀스 원소를 역순으로 정렬
+
+    from typing import Any, MutableSequence
+
+    def reverse_array(a: MutableSequence) -> None:
+        """뮤터블 시퀀스 a의 원소를 역순으로 정렬"""
+        n = len(a)
+        for i in range(n//2):
+            a[i], a[n - 1 - i] = a[n - 1 - i], a[i]
+
+    if __name__ == "__main__":
+        print("배열 원소를 역순으로 정렬합니다.")
+        nx = int(input('원소 수를 입력하세요.: '))
+        x = [None] * nx
+
+        for i in range(nx):
+            x[i] = int(input(f"x[{i}]값을 입력하세요.: "))
+
+        reverse_array(x)
+
+        print("배열 원소를 역순으로 정렬했습니다.")
+        for i in range(nx):
+            print(f'x[{i}] = {x[i]}')
+
+192번째 줄에서 두 값을 교환할 때 튜플을 이용해서 간단히 교환하는 모습.
+name == main 이거 syntax 주의하기.
+
+  #보충 수업 2-4 리스트를 역순으로 정렬하기
+  1) x.reverse()
+    파괴적으로 x를 역순으로 수정
+  2) reversed(x)
+    이터레이터(반복자) 반환
+  3) y = list(reversed(x))
+    역순으로 된 리스트를 y에 대입
+
+  # 2-7 A
+  # 10진수 정숫값을 입력받아 2~36진수로 변환하여 출력하기
+
+      def card_conv(x: int, r: int) -> str:
+          """정숫값 x를 r진수로 변환한 뒤 그 수를 나타내는 문자열을 반환"""
+
+          d=''
+          dchar = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+          n = len(str(x))
+
+          print(f'{r:2} | {x:{n}d}')
+
+          while x > 0:
+              print('   +' + (n + 2) * '-')
+              if x // r:
+                  print(f'{r:2} | {x // r:{n}d} ... {x % r}')
+              else:
+                  print(f'      {x // r:{n}d} ... {x % r}')
+              d += dchar[x % r]
+              x //= r
+
+          return d[::-1]
+
+      if __name__ == "__main__":
+          print('10진수를 n진수로 변환합니다.')
+
+          while True:
+                while True:
+                    no = int(input('변환할 값으로 음이 아닌 정수를 입력하세요.: '))
+                    if no > 0 :
+                        break
+
+                while True:
+                    cd = int(input("어떤 진수로 변환할까요?: "))
+                    if 2 <= cd <= 36:
+                        break
+
+                print(f'{cd}진수로는 {card_conv(no, cd)}입니다.')
+
+                retry = input("한 번 더 변환할까요?(Y 예 / N 아니요): ")
+                if retry in {'N', 'n'}:
+                    break
+
+>기수 : 수를 나타네는 데 기초가 된다.
+      쉽게 생각해서 n진법에서 어떠한 자리에 들어갈 수 있는 수가 기수이다.
+      n진수는 n을 기수로 하는 수이다.
+> 기수 변환하기 : 알고리즘의 종류가 될 수 있겠다.
+
 
 
