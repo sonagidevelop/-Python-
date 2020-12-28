@@ -346,3 +346,52 @@ name == main 이거 syntax 주의하기.
 빠른 알고리즘은 많은 메모리를 요구합니다.
 연산 횟수가 78,022번에서 14,622번으로 줄어들었다.
 
+	# 2-10
+	# Arranging prime number in 1000 (improving algorithm2)
+
+	counter = 0
+	ptr = 0
+	prime = [None] * 500
+
+	prime[ptr] = 2
+	ptr += 1
+
+	prime[ptr]=3
+	ptr += 1
+
+	for n in range(5, 1001, 2):
+		i = 1
+		while prime[i] * prime[i] <= n:
+			counter += 2
+			if n % prime[i] == 0:
+				break
+			i += 1
+		else:
+			prime[ptr] = n
+			ptr += 1
+			counter += 1
+
+
+	for i in range(ptr):
+		print(prime[i])
+	print(f'c:{counter}')
+	
+이해가 잘 가지 않는다....
+
+	>>> x = [[1,2,3],[4,5,6]]
+	>>> y = x.copy()
+	>>> x[0][1] = 9
+	>>> x
+	[[1, 9, 3], [4, 5, 6]]
+	>>> y
+	[[1, 9, 3], [4, 5, 6]]
+
+copy 함수를 쓸 때 원본의 참조를 가져오는 것이므로 주의해야 한다.
+얕은 복사 shallow copy : 리스트 안의 모든 원소가 참조하는 곳까지 복사
+깊은 복사 deep copy : 구성 원소 수준으로 복사, y=copy.deepcopy(x) 의 형식으로 사용
+
+
+
+
+	
+	
