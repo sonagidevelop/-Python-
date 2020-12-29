@@ -3,9 +3,10 @@
 > 버킷 bucket : 해시 테이블에서 만들어진 원소
 > 해시 충돌 collision : 저장할 버킷이 중복되는 현상
 > 해시 충돌을 대처하는 방법 
-  -체인법 chaining(=오픈 해시법 open hashing) 
+  -체인법 chaining(= 오픈 해시법 open hashing) 
     : 해시값이 같은 원소를 연결리스트로 관리한다.
-  -오픈 주소법 : 빈 버킷을 찾을 때까지 해시를 반복한다.
+  -오픈 주소법(= 닫힌 해시법 closed hashing)
+    : 충돌이 발생했을 때 재해시 rehashing를 수행하여 빈 버킷을 찾는 방법) : 빈 버킷을 찾을 때까지 해시를 반복한다.
   
 # 3-5
 # implementing hash function via chaining
@@ -135,4 +136,150 @@ while True:
 		break
 
 
+# 3-7
+# implementing hash function using open addressing
 
+#from __future__ import annotations
+from typing import Any, Sequence
+from enum import Enum
+import hashlib
+
+# property of bucket
+class Status(Enum):
+	OCCUPIED = 0
+	EMPTY = 1
+	DELETED = 2
+
+class Bucket:
+	"""Bucket composing hash"""
+	
+	def __init__(self, key:Any = None, value: Any= None,
+	stat: Status = Status.EMPTY) -> None:
+		#Initialization
+		self.key = key
+		self.value = value
+		self.stat = stat
+		
+	def set(self, key:Any, value: Any, stat: Status) -> None:
+		self.key = key
+		self.value = value
+		self.stat = stat
+		
+	def set_status(self, stat: Status) -> None:
+		self.stat = stat
+		
+class OpenHash:
+	
+	def __init__(self, capacity: int) -> None:
+		#initialization
+		self.capacity = capacity
+		self.table = [Bucket()] * self.capacity
+	
+	def hash_value(self, key: Any) -> int:
+		if isinstance(key, int):
+			return key % self.capacity
+		return(int(hashlib.md5(str(key).encode()).hexdigest(), 16) % self.capacity)
+		
+	def rehash_value(self, key: Any) -> int:
+		return(self.hash_value(key)+1) % self.capacity
+	
+	def search_node(self, key:Any) -> Any:
+		hash = self.hash_value(key)
+		p = self.table[hash]
+		
+		for i in range(self.capacity):
+			if p.stat == Status.EMPTY:
+				break
+			elif p.stat == Status.OCCUPIED and p.key == key:
+				return p
+			hash = self.rehash_value(hash)
+			p = self.table[hash]
+		return None
+		
+	def search(self, key:Any) -> Any:
+		p = self.search_node(key)
+		if p is not None:
+			return p.value
+		else:
+			return None
+			
+	def add(self, key: Any, value: Any) -> bool:
+		if self.search(key) is not None:
+			return False
+		
+		hash = self.search(key)
+		p = self.table[hash]
+		for i in range(self.capacity):
+			if p.stat == Status.EMPTY or p.stat == Status.DELETED:
+				self.table[hash] = Bucket(key,value,Status.OCCUPIED)
+				return True
+			hash = self.rehash_value(hash)
+			p = self.table[hash]
+		return False
+		
+	def remove(self, key:Any) -> int:
+		p = self.search_node(key)
+		if p is None:
+			return False
+		p.set_status(Status.DELETED)
+		return True
+		
+	def dump(self) -> None:
+		for i in range(self.capacity):
+			print(f'{i:2}',end='')
+			if self.table[i].stat == Status.OCCUPIED:
+				print(f'{self.table[i].key} ({self.table[i].value})')
+			elif self.table[i].stat == Status.EMPTY:
+				print('Not enrolled')
+			elif self.table[i].stat == Status.DELETED:
+				print('Succesfully Deleted.')
+			
+		
+# 3-8
+# Using class 'Openhash' implementing open addressing
+
+from enum import Enum
+from open_hash import OpenHash
+
+Menu = Enum('Menu',['add','delete','search','dump','exit'])
+
+def select_menu() -> Menu:
+	
+	s = [f'({m.value}){m.name}' for m in Menu]
+	while True:
+		print(*s, sep='  ',end='')
+		n = int(input(': '))
+		if 1 <= n <= len(Menu):
+			return Menu(n)
+
+hash = OpenHash(13)
+while True:
+	menu = select_menu()
+	
+	if menu == Menu.add:
+		key = int(input('Key to add: '))
+		val = input('Value to add: ')
+		if not hash.add(key,val):
+			print("Failed adding!")
+			
+	elif menu == Menu.delete:
+		key = int(input("Key to delete: "))
+		if not hash.remove(key):
+			print("Failed Removing!")
+			
+	elif menu == Menu.search:
+		key = int(input("Key to search: "))
+		t = hash.search(key)
+		if t is not None:
+			print(f'Value that has that key is {t}.')
+		else:
+			print('No data')
+			
+	elif menu == Menu.dump:
+		hash.dump()
+		
+	else:
+		break
+			
+아... 이해도 잘 안되는 상태로 일단 코드를 따라서 쳐 봤는데 에러가 뜬다...
+나중에 다시 해 보자
