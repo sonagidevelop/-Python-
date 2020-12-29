@@ -1,0 +1,71 @@
+> 이진 검색 binary search : 정렬되어 있는 자료에서 사용한다.
+계속 반토막 내는 거라고 생각하면 될 것 같다.
+
+  # 3-4
+    # binary search algorithm
+
+    from typing import Any, Sequence
+
+    def bin_search(a: Sequence, key: Any):
+      pl = 0
+      pr = len(a) - 1
+
+      while True:
+        pc = (pl+pr) // 2
+        if a[pc] == key:
+          return pc
+        elif a[pc] < key :
+          pl = pc + 1
+        else : 
+          pr = pc - 1
+        if pl > pr:
+          break
+      return -1
+
+    if __name__ == '__main__':
+      num = int(input("Input length: "))
+      x = [None] * num
+
+      print("Input array data in an ascending order.")
+
+      x[0] = int(input("x[0]: "))
+
+      for i in range(1, num):
+        while True:
+          x[i] = int(input(f'x[{i}]: '))
+          if x[i] >= x[i-1]:
+            break
+
+      ky = int(input("Input value to search: "))
+
+      idx = bin_search(x, ky)
+
+      if idx == -1:
+        print('No element')
+      else:
+        print(f'That element is at x[{idx}]')
+        
+시간 복잡도 = log n
+검색에 실패할 경우는 log(n+1)번이며,
+검색에 성공할 경우는 logn -1번이다.
+
+> 시간 복잡도 time complexity : 실행하는 데 필요한 시간을 평가합니다.
+> 공간 복잡도 space complexity : 메모리와 파일 공간이 얼마나 필요한지를 평가합니다.
+선형 검색 알고리즘의 복잡도 = O(n)
+전체 복잡도는 차원이 가장 높은 복잡도를 선택한다.
+
+  #searching using index() function
+    >>> x
+    [1, 2, 3, 4, 5, 6]
+    >>> x.index(3)
+    2
+    >>> x.index(3,1,4)
+    2
+    >>> x.index(3,0,1)
+    Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+    ValueError: 3 is not in list
+
+> 복잡도와 증가율
+  1 > logn > n > nlogn > n^2 > n^3 > n^k > 2^n
+
