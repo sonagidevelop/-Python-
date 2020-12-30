@@ -1,1 +1,45 @@
 
+> 스택 stack : 스택은 데이터를 임시 저장할 때 사용하는 자료구조
+> LIFO 선입선출 : 나중에 넣은 데이터를 먼저 꺼낸다는 뜻
+> push, pop : 데이터 넣기, 빼기
+
+구현해야 하는 코드
+- 스택 배열
+- 스택 크기 : 스택의 용량
+- 스택 포인터 : 스택에 쌓여 있는 개수를 나타내는 정숫값
+- 예외 처리 : empty, full , __init__(), __len__()
+- 비어 있는 지 판단하는 함수 is_empty()
+- 가득 차 있는 지 판단하는 함수 is_full()
+
+  # 4-1
+    # Implementing Fixed Stack
+
+    from typing import Any
+
+    class FixedStack:
+      """fixed length stack class"""
+
+      class Empty(Exception):
+        pass
+
+      class Full(Exception):
+        pass
+
+      def __init__(self, capacity: int = 256) -> None:
+        #initializing stack
+        self.stk = [None] * capacity
+        self.capacity = capacity
+        self.ptr = 0
+
+      def __len__(self) -> int:
+        return self.ptr
+
+      def is_empty(self) -> bool:
+        """judging whether stack is empty or not"""
+        return self.ptr <= 0 
+
+      def is_full(self) -> bool:
+        return self.ptr >= self.capacity
+        
+        
+4-1 exception
