@@ -182,3 +182,61 @@ while True:
 		
 	else:
 		break
+		
+> 컨테이너 : 딕셔너리, 리스트, 집합, 튜플 등 여러 개의 데이터를 포함하는 것
+Collection 모듈로 다양한 컨테이너를 제공한다.
+> 덱 deque 맨앞과 맨 끝 양쪽 원소를 추가, 삭제하는 자료구조
+
+
+	# 4C-1
+		# implementing fixed stack ysing collections.deque
+
+		from typing import Any
+		from collections import deque
+
+		class Stack:
+
+			def __init__(self, maxlen: int = 256) -> None:
+
+				self.capacity = maxlen
+				self.__stk = deque([], maxlen)
+
+			def __len__(self) -> int:
+				return len(self.__stk)
+
+			def is_empty(self) -> bool:
+
+				return not self.__stk
+
+			def is_full(self) -> bool:
+
+				return len(self.__stk) == self.__stk.maxlen
+
+			def push(self, value: Any) -> None:
+				self.__stk.append(value)
+
+			def pop(self):
+				return stk.__stk.pop()
+
+			def peek(self):
+				return self.__stk[-1]
+
+			def clear(self) -> None:
+				self.__stk.clear()
+
+			def find(self, value: Any) -> Any:
+				try:
+					return self.__stk.index(value)
+				except  ValueError:
+					return -1
+
+			def count(self, value: Any) -> int:
+				return self.__stk.count(value)
+
+			def __contains__(self,value: Any) -> bool:
+				return self.count(value)
+
+			def dump(self) -> int:
+				print(list(self.__stk))
+				
+스택을 deque라는 컨테이너로 구현한 것인데, 파이썬에서 지원해주는 collection 모듈에서 가져다 쓰는 것이다.
