@@ -1,1 +1,178 @@
+> 큐 queue : 데이터 임시 저장하는 자료구조, 선입 선출.
+> 기본 용어 : 인큐(추가), 디큐(제거), 프론트(데이터 꺼내는 쪽), 리어(데이터 넣는 쪽(CAUTION : The next index!!))
+> 우선순위 큐 priority queue : 인큐할 때 데이터에 우선순위 부여, 디큐할 때 우선순ㅇㅜㅣ가 가장 높은 데이터 꺼냄.
+Heapq 모듈에서 제공함.
+> 배열로 큐 구현하기 :
+- 순서 1) 인큐 2) 디큐 3) 데이터 앞으로 한 칸씩 옮기기
 
+> 링 버퍼로 큐 구현하기 :
+Front, rear 변수를 바꿔가며 처음과 끝을 표현하는 자료 구조.
+
+
+  # 4-3
+    # Implementing Fixed Queue
+
+    from typing import Any
+
+    class FixedQueue:
+
+      class Empty(Exception):
+        pass
+
+      class Full(Exception) :
+        pass
+
+      def __init__(self, capacity: int) -> None:
+
+        self.no = 0
+        self.front = 0
+        self.rear = 0
+        self.capacity = capacity
+        self.que = [None] * capacity
+
+      def __len__(self) -> int:
+        return self.no
+
+      def is_empty(self) -> bool:
+        return self.no <= 0
+
+      def is_full(self) -> bool:
+        return self.no >= self.capacity
+
+      def enque(self, x: Any) -> None:
+        if self.is_full():
+          raise FixedQueue.Full
+
+        self.que[self.rear] = x
+        self.rear += 1
+        self.no += 1
+        if self.rear == self.capacity:
+          self.rear = 0
+
+      def deque(self) -> Any:
+        if self.is_empty():
+          raise FixedQueue.Empty
+        x = self.que[self.front]
+        self.front += 1
+        self.no -= 1
+        if self.front == self.capacity:
+          self.front = 0
+        return x
+
+      def peek(self) -> Any:
+        if self.is_empty():
+          raise FixedQueue.Empty
+        return self.que[self.front]
+
+      def find(self, value: Any) -> Any:
+        for i in range(self.no):
+          idx = (i + self.front) % self.capacity
+			if self.que[idx] == value:
+				return idx
+		return -1
+		
+	def count(self, value: Any) -> bool:
+		c = 0
+		for i in range(self.no):
+			idx = (i + self.front) % self.capacity
+			if self.que[idx] == value:
+				c += 1
+		return c		
+		
+	def __contains__(self, value: Any) -> bool:
+		return self.count(value)
+		
+	def clear(self) -> None:
+		self.no = self.front = self.rear = 0
+		
+	def dump(self) -> None:
+		
+		if self.is_empty():
+			print("Que is Empty.")
+		else:
+			for i in range(self.no):
+				print(self.que[(i + self.front) % self.capacity], end='')
+			print()	
+
+
+
+ # 4-4
+    # Use FixedQueue!
+
+    from enum import Enum
+    from fixed_queue import FixedQueue
+
+    Menu = Enum('Menu', ['enque', 'deque', 'peek', 'search', 'dump', 'exit'])
+
+    def select_menu() -> Menu:
+
+      s = [f'({m.value}){m.name}' for m in Menu]
+      while True:
+        print(*s, sep='    ', end='')
+        n = int(input(": "))
+        if 1 <= n <= len(Menu):
+          return Menu(n)
+
+    q = FixedQueue(64)
+
+    while True:
+      print(f'Current Data count: {len(q)} / {q.capacity}')
+      menu = select_menu()
+
+      if menu == Menu.enque:
+        x = int(input('Input data to enque: '))
+        try:
+          q.enque(x)
+        except FixedQueue.Full:
+          print("Queue is Full!")
+
+      elif menu == Menu.deque:
+        try:
+          x = q.deque()
+          print(f'Dequed data is {x}.')
+        except FixedQueue.Empty:
+          print('Que is Empty!')
+
+      elif menu == Menu.peek:
+        try:
+          x = q.peek()
+          print(f'Peeked data is {x}.')
+        except FixedQueue.Empty:
+          print('Que is Empty!')
+
+      elif menu == Menu.search:
+        x = int(input("Input data to search: "))
+        if x in q:
+          print(f'{q.count(x)} counts, the first index is {q.find(x)} ')
+        else:
+          print('Cannot find that value')
+
+      elif menu == Menu.dump:
+        q.dump()
+      else:
+        break
+        
+
+  # 4C-2
+    # Get n values
+
+    n = int(input("How many integers?: "))
+    a = [None] * n
+
+    cnt = 0
+    while True:
+      a[cnt % n] = int(input((f'input {cnt + 1}th integer: ')))
+      cnt += 1
+
+      retry = input(f'continue?(Y...Yes/ N...No): ')
+      if retry in {'N', 'n'}:
+        break
+
+    i = cnt - n
+    if i < 0 : i = 0
+
+    while i < cnt:
+      print(f'{i + 1}th = {a[i % n]}')
+      i += 1
+      
+링 버퍼를 활용하여 n개 용량의 컨테이너를 만들고, n  개를 초과한 양의 데이터가 들어왔을 때 초과된 데이터들을 쳐내는 프로그램 구현
