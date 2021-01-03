@@ -1,1 +1,88 @@
 
+> 유클리드 호제법 Euclidean algorithm
+최대 공약수 greatest common divisor 구하는 방법으로 생각해보기.
+
+# 5-2
+# getting GCD using Euclidean algorithm
+
+def gcd(x: int, y: int) -> int:
+	if y == 0:
+		return x
+	else:
+		return gcd(y, x % y)
+		
+if __name__ == "__main__":
+	print('get GCD of two integers')
+	
+x = int(input("Type first int: "))
+y = int(input("Type second int: "))
+
+print(f'GCD is {gcd(x,y)}')
+
+> 순수한 재귀 genuinely : 재귀 호출을 여러 번 실행하는 함수
+
+# 5-3
+# implementing genuine recurse(?)
+
+def recur(n: int) -> int:
+	if n > 0:
+		recur(n - 1)
+		print(n)
+		recur(n - 2)
+		
+x = int(input("Type integer: "))
+
+recur(x)
+
+# 5-4
+# 꼬리 재귀를 제거
+
+def recur(n: int) -> int:
+	while n > 0:
+		recur(n - 1)
+		print(n)
+		n = n - 2
+
+# 5-5
+# 스택으로 재귀 함수 구현하기(재귀를 제거)
+
+from stack import Stack
+
+def recur(n: int) -> int:
+	s = Stack(n)
+	
+	while True:
+		if n > 0:
+			s.push(n)
+			n = n-1
+			continue
+		if not s.is_empty():
+			n = s.pop()
+			print(n)
+			n = n-2
+			continue
+		break
+		
+x = int(input("Type integer: "))
+
+recur(x)
+
+> continue문 : 쭉 실행하고 상위 블록으로 간다.
+
+# 5-6
+# 하노이의 탑 구현하기
+
+def move(no: int, x: int, y: int) -> None:
+	
+	if no > 1:
+		move(no -1, x, 6 - x - y)
+		
+	print(f'Move[{no}] from {x}pillar to {y}pillar.')
+
+	if no > 1:
+		move(no - 1, 6 - x - y, y)
+		
+print("Let\'s do hanoi.")
+n = int(input("Type numbers of tokens: "))
+
+move(n, 1, 3)
