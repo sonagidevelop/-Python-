@@ -1,1 +1,71 @@
 
+단순 삽입 정렬의 
+장점 : 이미 정렬을 마쳤거나 정렬이 거의 끝나가는 상태에서는 속도가 아주 빠릅니다.
+단점 : 삽입할 위치가 멀리 떨어져 있으면 이동 횟수가 많아집니다.
+
+# 6-8
+# Implementing Shell sort algorithm
+
+from typing import MutableSequence
+
+def shell_sort(a):
+	n = len(a)
+	h = n //2
+	while h > 0:
+		for i in range(h , n):
+			j = i - h
+			tmp = a[i]
+			while j > 0 and a[j] > tmp:
+				a[j + h] = a[j]
+				j -= h
+			a[j + h] = tmp
+		h // = 2
+				
+
+# 6-9
+# shell sort(h * 3 + 1)
+
+from typing import MutableSequence
+
+def shell_sort(a: MutableSequence) -> None:
+	n = len(a)
+	h = 1
+	
+	while h < n // 9:
+		h = h * 3 + 1
+		
+	while h > 0 :
+		for i in range(h, n):
+			j = i - h
+			tmp = a[i]
+			while j >= 0 and a[j] > tmp:
+				a[j + h] = a[j]
+				j -= h
+			a[j + h] = tmp
+		h //= 3
+
+> 퀵 정렬 quick sort : 
+> 피벗 pivot : 그룹을 나누는 기준
+
+
+# 6-10
+# dividing array into two groups
+
+from typing import MutableSequence
+
+def partition(a: MutableSequence) -> None:
+	
+	n = len(a)
+	pl = 0
+	pr = n - 1
+	x = a[n // 2] #pivot
+	
+	while pl <= pr:
+		while a[pl] < x: pl += 1
+		while a[pr] > x: pr -= 1
+		if pl <= pr:
+			a[pl], a[pr] = a[pr], a[pl]
+			pl += 1
+			pr -= 1
+			
+
