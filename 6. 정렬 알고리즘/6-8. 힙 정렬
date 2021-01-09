@@ -1,1 +1,86 @@
+> 힙 정렬 : 힙의 특성을 이용하여 정렬하는 알고리즘
+> 힙 : 부모와 자식의 관계가 한 방향인 완전 이진 트리
 
+——-
+노드
+가지
+루트
+리프 leaf = 단말 노드 terminal node, 외부 노드 external node
+리프가 아닌 노드 = 비단말 노드 non-terminal node, 내부 노드 internal node
+(루트와 리프는 트리를 어떻게 잡느냐에 따라 상대적이다)
+조상 ancestor 위쪽에 있는 모든 노드
+자손 descendant 아래쪽으로 따라가면 만나는 모든 노드
+레벨 level 루트에서 얼마나 멀리 떨어져 있는지
+차수 degree 각 노드가 갖는 자식의 수
+	모든 노드의 차수가 n 이하인 트리 = n진 트리
+레벨의 최댓값 = 높이 height
+서브트리 : 전체 트리 속의 트리
+빈 트리 none tree = null tree : 노드와 가지가 전혀 없는 트리
+순서 트리: 형제끼리 순서가 있는 트리, 없으면 무순서 트리
+너비 우선 검색 breadth-first search
+깊이 우선 검색 depth-first search
+전위 순회, 중위 순회, 회귀 순회
+——-
+
+> 부분 순서 트리 partial ordered tree : 힙은 부모-자식 관계는 일정하지만 형제 사이의 대소 관계는 일정하지 않다. 따라서 힙은 부분 순서 트리이다.
+
+> 힙을 너비 우선 검색 했을 때, 
+	원소  a[i]에서
+	부모 : a[(i - 1) // 2]
+	왼쪽 자식 : a[i * 2 + 1]
+	오른쪽 자식 : a[i * 2 + 2]
+
+> 힙 정렬 알고리즘
+	1. 루트를 꺼냅니다.
+	2. 마지막 원소를 루트로 이동합니다.
+	3. 루트에서 시작하여 자신보다 값이 큰 자식과 자리를 바꾸고 아래쪽으로 내려가는 작업을 반복합니다.
+	4. (1,2,3)의 과정을 반복합니다.
+
+# 6-16
+# 힙 정렬 알고리즘 구현하기
+
+from typing import MutableSequence
+
+def heap_sort(a: MutableSequence) -> None:
+	
+	def down_heap(a: MutableSequence, left, right) -> None:
+		# Making a[left]~a[right] into heap
+		temp = a[left]
+		
+		parent = left
+		while parent < (right + 1) // 2:
+			cl = parent * 2 + 1
+			cr = cl + 1
+			child = cr if cr <= right and a[cr] > a[cl] else cl
+			if temp >= a[child]:
+				break
+			a[parent] = a[child]
+			parent = child
+		a[parent] = temp
+				
+	n = len(a)
+	
+	for i in range((n-1) // 2, -1, -1):
+		down_heap(a, i, n - 1)
+		
+	for i in range(n - 1, 0, -1):
+		a[0], a[i] = a[i], a[0]
+		down_heap(a, 0, i - 1)
+    
+    
+# 6C-5
+
+import heapq
+
+def heap_sort(a):
+	heap=[]
+	for i in a:
+		heapq.heappush(heap, i)
+	for i in range(len(a)):
+		a[i] = heapq.heappop(heap)
+		
+	return a
+	
+l = [3,1,4,7,1,6,3,4]
+
+print(heap_sort(l))
