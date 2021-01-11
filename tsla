@@ -1,0 +1,5 @@
+import yfinance as yf
+
+tsla = yf.download('TSLA',start = '2019-01-01')
+tsla['Close']
+tsla['Close'].plot()
