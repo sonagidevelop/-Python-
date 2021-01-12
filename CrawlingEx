@@ -3,14 +3,57 @@
 from bs4 import BeautifulSoup
 import requests
 
+while True:
+    whattodo = int(input("1.야후 파이낸스 검색(티커입력) 2. 네이버뉴스 검색(검색어 입력): "))
+    if whattodo in range(1, 3):
+        break
 
-muskcount = 0
-words = []
+
+
+def yfinance():
+    
+    toSearch = input("Input Ticker: ")
+    titlelist = []
+    n = 1
+    raw = requests.get('https://feeds.finance.yahoo.com/rss/2.0/headline?s=' + toSearch + '&region=US&lang=en-US',  headers={'User-Agent':'Mozilla/5.0'})
+
+    html = BeautifulSoup(raw.text, "html.parser")
+    titles = html.select("title")
+
+    for i in titles:
+        j = str(i).replace('<title>', '').replace('</title>', '')
+
+        print(n, j)
+        n += 1
+
+
+def naverSearch():
+    i = 1
+    toSearch = input("검색어 입력: ")
+    for n in range(1, 50, 10):
+        raw = requests.get("https://search.naver.com/search.naver?where=news&sm=tab_jum&query=" + toSearch + "&start=" + str(n) , headers={'User-Agent':'Mozilla/5.0'})
+        html = BeautifulSoup(raw.text, "html.parser")
+        articles = html.select("ul.list_news > li")
+
+        for ar in articles:
+            title = ar.select_one("a.news_tit").text
+            print(i, title)
+            i += 1
+        
+if whattodo == 1:
+    yfinance()
+elif whattodo == 2:
+    naverSearch()
+
+
+    
+
+"""
 for n in range(1, 100, 10):
-    raw = requests.get("https://search.naver.com/search.naver?where=news&sm=tab_jum&query=테슬라&start=" + str(n) , headers={'User-Agent':'Mozilla/5.0'})
+    raw = requests.get("https://search.naver.com/search.naverSearch()er?where=news&sm=tab_jum&query=테슬라&start=" + str(n) , headers={'User-Agent':'Mozilla/5.0'})
     html = BeautifulSoup(raw.text, "html.parser")
 
-    articles = html.select("ul.list_news > li")
+    articles = html.select("#quoteNewsStream-0-Stream > ul > li")
 
     for ar in articles:
         title = ar.select_one("a.news_tit").text
@@ -20,3 +63,8 @@ for n in range(1, 100, 10):
         print(title)
 
 print(muskcount)
+
+
+'https://finance.yahoo.com/quote/' + toSearch + '?p=' + toSearch + '&.tsrc=fin-srch'
+'https://feeds.finance.yahoo.com/rss/2.0/headline?s=' + toSearch + '&region=US&lang=en-US'
+"""
